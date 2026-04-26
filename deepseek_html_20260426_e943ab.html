@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Guia de Viagem | Simpósios DH 2026</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, 'Segoe UI', 'Inter', Roboto, sans-serif;
+            background: #f1f5f9;
+            color: #0a2e3f;
+            line-height: 1.5;
+        }
+        .hero {
+            background: linear-gradient(115deg, #0b3b4f 0%, #146b85 100%);
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+        }
+        .hero h1 { font-size: 1.9rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .hero h1 i { color: #ffcd7e; font-size: 2rem; }
+        
+        .congress-highlight {
+            display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;
+            max-width: 1000px; margin: 1.5rem auto 0;
+        }
+        .congress-card {
+            background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+            border-radius: 24px; padding: 1.2rem 1.5rem; flex: 1; min-width: 260px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .congress-card i { font-size: 2rem; color: #ffcd7e; margin-bottom: 0.5rem; display: inline-block; }
+        .congress-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .congress-card p { font-size: 0.85rem; opacity: 0.9; }
+        
+        .lang-bar { margin-top: 1.2rem; display: flex; justify-content: center; gap: 14px; }
+        .lang-btn {
+            background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 24px;
+            border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; backdrop-filter: blur(4px);
+        }
+        .lang-btn.active { background: #ffcd7e; color: #0b3b4f; }
+        
+        .container { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        .guide-intro {
+            background: white; border-radius: 28px; padding: 1.5rem; margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-left: 6px solid #146b85;
+        }
+        .guide-intro h2 { display: flex; align-items: center; gap: 10px; color: #0b3b4f; margin-bottom: 0.8rem; }
+        .guide-intro p { color: #2c5a6e; margin-bottom: 0.5rem; }
+        
+        .card { background: white; border-radius: 28px; margin-bottom: 2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.05); overflow: hidden; }
+        .card-header { padding: 1.2rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.1s; }
+        .card-header h2 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .toggle-icon { font-size: 1.5rem; transition: 0.2s; }
+        .card-content { padding: 0 1.8rem 1.8rem 1.8rem; display: none; border-top: 1px solid #e9edf2; background: white; }
+        .card-content.open { display: block; }
+        
+        .card-voos .card-header { background: #1a5d7a; color: white; border-radius: 28px 28px 0 0; }
+        .card-voos .card-header h2 i, .card-voos .toggle-icon { color: #ffcd7e; }
+        .card-porto .card-header { background: #2c7a4a; color: white; border-radius: 28px 28px 0 0; }
+        .card-porto .card-header h2 i, .card-porto .toggle-icon { color: #ffcd7e; }
+        .card-intervalo .card-header { background: #d98c2b; color: white; border-radius: 28px 28px 0 0; }
+        .card-intervalo .card-header h2 i, .card-intervalo .toggle-icon { color: #ffffff; }
+        .card-salamanca .card-header { background: #8b5a2b; color: white; border-radius: 28px 28px 0 0; }
+        .card-salamanca .card-header h2 i, .card-salamanca .toggle-icon { color: #ffcd7e; }
+        .card-madrid .card-header { background: #4a6a8b; color: white; border-radius: 28px 28px 0 0; }
+        .card-madrid .card-header h2 i, .card-madrid .toggle-icon { color: #ffcd7e; }
+        .card-resumo .card-header { background: #2c5f6e; color: white; border-radius: 28px 28px 0 0; }
+        .card-resumo .card-header h2 i, .card-resumo .toggle-icon { color: #ffcd7e; }
+        
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; margin-right: 8px; margin-bottom: 6px; }
+        .tag-economica { background: #c8e6e0; color: #0f5c4a; }
+        .tag-melhor-custo { background: #ffe0b5; color: #b45f06; }
+        .tag-cafe-incluido { background: #d4e2d4; color: #2d6a2d; }
+        .tag-sem-cafe { background: #f0f0f0; color: #6c757d; }
+        .price-highlight { background: #fef4e8; border-left: 4px solid #e67e22; padding: 0.8rem; border-radius: 18px; margin: 0.8rem 0; display: inline-block; }
+        .hotel-grid, .transport-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1.2rem 0; }
+        .hotel-card { background: #fefefe; border-radius: 24px; border: 1px solid #e2e8f0; padding: 1.2rem; flex: 1 1 280px; }
+        .hotel-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .btn-link, .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: #1e5a7a; color: white; padding: 8px 18px; border-radius: 40px; text-decoration: none; font-size: 0.75rem; font-weight: 600; margin-top: 12px; transition: 0.2s; border: none; cursor: pointer; }
+        .btn-outline { background: transparent; border: 1px solid #1e5a7a; color: #1e5a7a; }
+        .btn-outline:hover { background: #e6f0f5; }
+        .info-row { margin: 0.5rem 0; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .note-box { background: #eef4fa; padding: 1rem; border-radius: 20px; margin: 1rem 0; }
+        .alert-box { background: #fff3e0; border-left: 5px solid #e67e22; padding: 1rem; border-radius: 20px; margin: 1rem 0; }
+        hr { margin: 1rem 0; border-color: #e2e8f0; }
+        footer { background: #0b3b4f; color: #c9e2ef; text-align: center; padding: 1.8rem; font-size: 0.8rem; }
+        @media (max-width: 720px) { .card-header h2 { font-size: 1rem; } .container { padding: 0 1rem; } }
+        .section-subtitle { font-weight: 700; margin: 1rem 0 0.8rem; color: #0f4a62; border-left: 4px solid #2c7da0; padding-left: 14px; font-size: 1rem; }
+        .timeline-resumo { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; background: #eaf4e8; border-radius: 32px; padding: 1.5rem; margin: 1rem 0; }
+        .timeline-step { flex: 1; text-align: center; background: white; border-radius: 24px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03); min-width: 100px; }
+        .timeline-step i { font-size: 1.8rem; color: #146b85; margin-bottom: 0.5rem; display: inline-block; }
+        .option-badge { display: inline-block; background: #2c7da0; color: white; padding: 2px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; margin-left: 10px; }
+        .checkin-date { background: #eef2fa; border-radius: 16px; padding: 0.2rem 0.6rem; font-size: 0.75rem; font-weight: 600; display: inline-block; margin: 4px 0; }
+        .currency-value { font-weight: 800; }
+        .route-card { transition: transform 0.2s; }
+        .route-card:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <h1><i class="fas fa-map-signs"></i> <span data-key="hero_title">GUIA DE VIAGEM DO SIMPÓSIO</span></h1>
+    <div class="congress-highlight">
+        <div class="congress-card"><i class="fas fa-gavel"></i><h3 data-key="congress1_title">III Simpósio Internacional em Direitos Humanos e Cidadania</h3><p data-key="congress1_info">Universidade Portucalense, Porto · 18 e 19 de junho de 2026</p></div>
+        <div class="congress-card"><i class="fas fa-landmark"></i><h3 data-key="congress2_title">VIII Simpósio Internacional em Direitos Humanos Aplicados</h3><p data-key="congress2_info">Universidad de Salamanca · 24, 25 e 26 de junho de 2026</p></div>
+    </div>
+    <div class="lang-bar">
+        <button class="lang-btn active" id="btn-pt">Português</button>
+        <button class="lang-btn" id="btn-es">Español</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="guide-intro">
+        <h2><i class="fas fa-info-circle"></i> <span data-key="guide_title">Sobre este Guia de Viagem</span></h2>
+        <p data-key="guide_text1">Este guia foi desenvolvido especialmente para os participantes do III Simpósio Internacional em Direitos Humanos e Cidadania (Porto) e do VIII Simpósio Internacional em Direitos Humanos Aplicados (Salamanca). Aqui você encontrará todas as informações necessárias para planejar sua viagem: opções de voos, sugestões de translados, hospedagens recomendadas e roteiro flexível para o intervalo entre os congressos.</p>
+        <p data-key="guide_text2"><i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Utilize os botões de idioma no topo para alternar entre português e espanhol. Todos os blocos são expansíveis — clique nos títulos coloridos para abrir/fechar as informações.</p>
+    </div>
+
+    <!-- BLOCO 1: VOOS -->
+    <div class="card card-voos">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-plane-departure"></i> <span data-key="flights_title">CHEGADA POR LISBOA (17/06) & RETORNO POR MADRI (29/06)</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <div class="note-box">
+                <i class="fas fa-globe-americas"></i> <strong data-key="flight_note_title">Informação importante:</strong><br>
+                <span data-key="flight_note">Os valores abaixo correspondem a voos saindo de Salvador (BA) — Brasil. Participantes que saírem do México ou de outros lugares do Brasil podem buscar conexões similares para chegar a Lisboa e partir de Madrid. Os translados e hospedagens na Europa são comuns para todos. O translado Lisboa → Porto só deve ser considerado por quem for chegar por Lisboa. Outras opções: chegar por Madrid no dia 17/06 e ir de ônibus para Porto, ou comprar voo direto para Porto com conexão em Lisboa ou Madrid.</span>
+            </div>
+            <div style="background:#f8fafd; border-radius: 20px; padding: 1rem; margin-bottom: 1rem;">
+                <div class="info-row"><i class="fas fa-calendar-alt"></i> <strong>16 de junho (ter.) · 12:55 – 07:10+1 · LATAM · 14h15 · 1 parada (GRU)</strong></div>
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Salvador (SSA) → Lisboa (LIS)</div>
+                <div class="price-highlight"><i class="fas fa-tag"></i> <strong>R$ 2.361,00</strong> / <strong>≈ $7.750 MXN</strong> <span class="tag tag-sem-cafe" data-key="sem_bagagem">sem bagagem despachada</span></div>
+                <a href="https://www.latamairlines.com/br/pt/oferta-voos?dataFlight=%7B%22tripTypeSelected%22:%7B%22value%22:%22OW%22%7D,%22cabinSelected%22:%7B%22label%22:%22Economy%22,%22value%22:%22Economy%22%7D,%22passengerSelected%22:%7B%22adultQuantity%22:1,%22childrenQuantity%22:0,%22infantQuantity%22:0%7D,%22originSelected%22:%7B%22id%22:%22SSA_BR_AIRPORT%22,%22iata%22:%22SSA%22,%22type%22:%22AIRPORT%22,%22airportIataCode%22:%22SSA%22%7D,%22destinationSelected%22:%7B%22id%22:%22LIS_PT_AIRPORT%22,%22iata%22:%22LIS%22,%22type%22:%22AIRPORT%22,%22airportIataCode%22:%22LIS%22%7D,%22dateGoSelected%22:%222026-06-16%22,%22dateReturnSelected%22:null%7D&sort=PRICE,asc" target="_blank" class="btn-link"><i class="fas fa-external-link-alt"></i> COMPRAR NA LATAM</a>
+            </div>
+            <div style="background:#f8fafd; border-radius: 20px; padding: 1rem;">
+                <div class="info-row"><i class="fas fa-calendar-alt"></i> <strong>29 de junho (seg.) · 10:55 – 18:50 · Azul / EUROATLANTIC · 12h55 · 1 parada (REC)</strong></div>
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Madrid (MAD) → Salvador (SSA)</div>
+                <div class="price-highlight"><i class="fas fa-tag"></i> <strong>R$ 3.027,00</strong> / <strong>≈ $9.940 MXN</strong> <span class="tag tag-sem-cafe" data-key="sem_bagagem">sem bagagem despachada</span></div>
+                <a href="https://www.google.com/travel/flights/booking?tfs=CBwQAhpnEgoyMDI2LTA2LTI5IiAKA01BRBIKMjAyNi0wNi0yORoDUkVDKgJBRDIEODAwMSIgCgNSRUMSCjIwMjYtMDYtMjkaA1NTQSoCQUQyBDQwNjdqDAgDEggvbS8wNTZfeXIHCAESA1NTQUABSAFwAYIBCwj___________8BmAEC&tfu=CnhDalJJVkhadlFqZzNiak0yVm1kQlJqbDBNV2RDUnkwdExTMHRMUzB0TFMxalpYWnBPRUZCUVVGQlIyNTBTM013UmxscmVUWkJFZzFCUkRnd01ERjhRVVEwTURZM0dnc0lxYndTRUFJYUEwSlNURGdjY05yYUF3PT0SAggAIgA&hl=pt-BR&gl=br&curr=BRL" target="_blank" class="btn-link"><i class="fas fa-external-link-alt"></i> COMPRAR NA DECOLAR</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 2: PORTO -->
+    <div class="card card-porto">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-bus"></i> <span data-key="porto_title">TRANSLADO LISBOA → PORTO (17/06) · HOSPEDAGEM NO PORTO (4 noites: 17-21/jun)</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <div class="transport-grid"><div class="hotel-card"><h3><i class="fas fa-bus"></i> FLIXBUS (OMIO)</h3><div class="info-row"><i class="far fa-calendar-alt"></i> <strong>17/06 (quarta)</strong> Saída 11h00 → Chegada 14h15</div><div class="price-highlight">R$ 45,00 <span style="font-size:0.8rem;">(≈ $148 MXN)</span></div><a href="https://www.omio.com.br/app/search-frontend/journey/bus/1836470878/L26436A9DE0944842AEB660863037FD2A/-7488358218369841693?locale=pt-BR" target="_blank" class="btn-link"><i class="fas fa-ticket-alt"></i> COMPRAR NA OMIO</a></div></div>
+            <div class="section-subtitle"><i class="fas fa-hotel"></i> <span data-key="porto_hotels">Opções de hospedagem – Porto (17/jun a 21/jun)</span></div>
+            <div class="hotel-grid">
+                <div class="hotel-card"><span class="tag tag-economica" data-key="tag_economica">OPÇÃO ECONÔMICA</span><h3>Hotel Grande Rio</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 17/06 | Check-out: 21/06</div><div>Centro, perto Metrô Farias Guimarães</div><div class="price-highlight">R$ 1.437 + R$70 taxas <span class="currency-value">(≈ $4.950 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / opções para casal</div><span class="tag tag-sem-cafe" data-key="sem_cafe">SEM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/pt/residencial-grande-rio.pt-br.html?checkin=2026-06-17&checkout=2026-06-21" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_prox_univ">MAIS PRÓXIMO DA UNIVERSIDADE</span><h3>Star Inn Porto</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 17/06 | Check-out: 21/06</div><div>Próximo à universidade (7 min carro, 25min ônibus)</div><div class="price-highlight">R$ 2.196 + R$70 taxas <span class="currency-value">(≈ $7.450 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / casal / quádruplo</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/pt/starinnporto.pt-br.html?checkin=2026-06-17&checkout=2026-06-21" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">ÓTIMO CUSTO-BENEFÍCIO</span><h3>B&B Hotel Porto Centro Massarelo</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 17/06 | Check-out: 21/06</div><div>Centro, perto Metrô Carolina Michaelis</div><div class="price-highlight">R$ 2.234 + R$70 taxas <span class="currency-value">(≈ $7.580 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / opções para casal</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/pt/bb-porto-centro-massarelos.html?checkin=2026-06-17&checkout=2026-06-21" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+            </div>
+            <div class="note-box"><i class="fas fa-lightbulb"></i> <strong data-key="porto_tip_title">Dica importante:</strong> <span data-key="porto_tip">Prefiram hotéis próximos a linhas de metrô. A Universidade Portucalense fica perto da estação IPO. Hotéis mais próximos da universidade ficam mais afastados do centro histórico.</span></div>
+        </div>
+    </div>
+
+    <!-- BLOCO 3: INTERVALO (totalmente traduzido e com visual melhorado) -->
+    <div class="card card-intervalo">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-calendar-week"></i> <span data-key="interval_title">INTERVALO ENTRE OS CONGRESSOS · 21 a 23 de junho</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <p data-key="interval_intro"><strong>Os participantes ficam livres para organizar um roteiro turístico próprio, podendo programar viagens para outras cidades ou irem direto para Salamanca.</strong> Uma opção é sair de Porto para Coimbra no dia 21/06 e de Coimbra para Salamanca no dia 23/06 (ônibus acessíveis). Abaixo as duas rotas completas.</p>
+            <div class="alert-box"><i class="fas fa-exclamation-triangle"></i> <strong data-key="interval_alert_title">ATENÇÃO PARTICIPANTES:</strong> <span data-key="interval_alert">A escolha da rota no intervalo impacta diretamente a data de check-in em Salamanca. Quem optar pela PRIMEIRA OPÇÃO chegará no dia 23/06 → 4 noites. Quem optar pela SEGUNDA OPÇÃO chegará no dia 21/06 → 6 noites. Ao reservar o hotel em Salamanca, escolha a seção correspondente à sua opção!</span></div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 1.5rem 0;">
+                <!-- PRIMEIRA OPÇÃO -->
+                <div class="route-card" style="flex:1; background: #eef2fa; border-radius: 28px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 2px solid #2c7da0; padding-bottom: 0.5rem;">
+                        <i class="fas fa-route" style="font-size: 1.8rem; color: #2c7da0;"></i>
+                        <h3 style="color: #0f4a62; margin:0;"><span data-key="option_a_title">PRIMEIRA OPÇÃO: IDA COM PARADA EM COIMBRA</span> <span class="option-badge" style="background:#2c7da0;">Chegada Salamanca: 23/06</span></h3>
+                    </div>
+                    <div class="info-row"><i class="fas fa-bus"></i> <strong data-key="porto_coimbra">Porto → Coimbra · 21/06 (domingo)</strong> Saída 11h15 → Chegada 12h35</div>
+                    <div class="price-highlight">R$ 30,00 (≈ $98 MXN) <a href="https://www.omio.com.br/app/search-frontend/journey/bus/-1776506590/LC2B3C4B35FD84A66A32F467A3BC91708/-5049580051462046219?locale=pt-BR" target="_blank" class="btn-outline btn-link" style="margin-left:8px;">COMPRAR NA OMIO</a></div>
+                    <div class="info-row"><strong><i class="fas fa-hotel"></i> <span data-key="stay_coimbra">Estadia em Coimbra (2 noites: 21/06 a 23/06)</span></strong></div>
+                    <div style="background:white; border-radius: 20px; padding: 0.8rem; margin: 0.5rem 0;"><span class="tag tag-economica" data-key="tag_economica">OPÇÃO ECONÔMICA</span> <strong>Hotel Botânico de Coimbra</strong><br>Check-in: 21/06 | Check-out: 23/06 · R$ 963 + R$12 taxas (≈ $3.200 MXN) · <span class="tag tag-cafe-incluido">COM CAFÉ</span> · Quarto individual/casal/triplo<br><a href="https://www.booking.com/hotel/pt/botanico-de-coimbra.pt-br.html?checkin=2026-06-21&checkout=2026-06-23" target="_blank" class="btn-outline btn-link" style="margin-top:6px;">RESERVAR NO BOOKING</a></div>
+                    <div style="background:white; border-radius: 20px; padding: 0.8rem; margin: 0.5rem 0;"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">ÓTIMO CUSTO-BENEFÍCIO</span> <strong>Hotel Ibis Coimbra Centro</strong><br>Check-in: 21/06 | Check-out: 23/06 · R$ 1.024 + R$12 taxas (≈ $3.400 MXN) · <span class="tag tag-cafe-incluido">COM CAFÉ</span> · Melhor localização<br><a href="https://www.booking.com/hotel/pt/ibis-coimbra.pt-br.html?checkin=2026-06-21&checkout=2026-06-23" target="_blank" class="btn-outline btn-link" style="margin-top:6px;">RESERVAR NO BOOKING</a></div>
+                    <div class="info-row"><i class="fas fa-bus"></i> <strong data-key="coimbra_salamanca">Coimbra → Salamanca · 23/06 (terça)</strong> Saída 14h15 → Chegada 18h59</div>
+                    <div class="price-highlight">R$ 177,00 (≈ $581 MXN) <a href="https://www.omio.com.br/app/search-frontend/journey/bus/-1088683285/L829156C1C0204A0985B6C35021820C1A/-4132364827235547756?locale=pt-BR" target="_blank" class="btn-outline btn-link">COMPRAR NA OMIO</a></div>
+                </div>
+                
+                <!-- SEGUNDA OPÇÃO -->
+                <div class="route-card" style="flex:1; background: #e0f0ed; border-radius: 28px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 2px solid #e67e22; padding-bottom: 0.5rem;">
+                        <i class="fas fa-forward" style="font-size: 1.8rem; color: #e67e22;"></i>
+                        <h3 style="color: #b45f06; margin:0;"><span data-key="option_b_title">SEGUNDA OPÇÃO: IDA DIRETO + BATE-VOLTA (OPCIONAL) VALLADOLID</span> <span class="option-badge" style="background:#e67e22;">Chegada Salamanca: 21/06</span></h3>
+                    </div>
+                    <div class="info-row"><i class="fas fa-bus"></i> <strong data-key="porto_salamanca_direto">Porto → Salamanca · 21/06 (domingo)</strong> Saída 9h45 → Chegada 16h29</div>
+                    <div class="price-highlight">R$ 85,00 (≈ $279 MXN) <a href="https://www.omio.com.br/app/search-frontend/journey/bus/345382468/LD6C61C0141E348B4AA9935DABE6D8303/8705377289630378540?locale=pt-BR" target="_blank" class="btn-outline btn-link">COMPRAR NA OMIO</a></div>
+                    <div class="info-row"><i class="fas fa-map-marked-alt"></i> <strong data-key="valladolid_title">Bate-volta opcional a Valladolid · 22/06 (segunda)</strong> – Ida: 9h00 → 10h40 · Volta: 19h30 → 21h10 (Avanza/Omio)</div>
+<div style="margin: 8px 0;"><span class="tag tag-melhor-custo" style="background:#e67e22; color:white;"><i class="fas fa-exchange-alt"></i> <span data-key="roundtrip_tag">IDA E VOLTA NO MESMO DIA</span></span></div>
+<div class="price-highlight" style="display: inline-block;">R$ 182,00 (≈ $597 MXN) ida+volta <a href="https://www.omio.com.br/app/search-frontend/journey/bus/443797526/L08BBA99C2E234A739CBF550257AFEBDA/2952830223111009866?locale=pt-BR" target="_blank" class="btn-outline btn-link">COMPRAR IDA</a> <a href="https://www.omio.com.br/app/search-frontend/journey/bus/276948583/L5B53C98346234D3AA1F81324FD8694EF/-8907923572208538613?locale=pt-BR" target="_blank" class="btn-outline btn-link">COMPRAR VOLTA</a></div>
+                    <div class="info-row"><i class="fas fa-info-circle"></i> <span data-key="free_day_salamanca">Dia livre em Salamanca em 23/06 para roteiro cultural antes do congresso.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOCO 4: SALAMANCA -->
+    <div class="card card-salamanca">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-university"></i> <span data-key="salamanca_main">SALAMANCA · ESTADIA E CONGRESSO (4 noites: 23-27/jun ou 6 noites: 21-27/jun)</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <div style="background:#f8fafc; border-radius: 24px; padding: 1rem; margin-bottom: 1.5rem; border-left: 6px solid #2c7da0;">
+                <div class="section-subtitle" style="margin-top:0;"><i class="fas fa-flag-checkered"></i> <span data-key="option_a_checkin">PRIMEIRA OPÇÃO (com parada em Coimbra) – Check-in: 23/06 | Check-out: 27/06 → 4 noites</span> <span class="option-badge">4 noites</span></div>
+                <div class="hotel-grid">
+                    <div class="hotel-card"><span class="tag tag-economica" data-key="tag_economica">OPÇÃO ECONÔMICA</span><h3>Hotel Gran Vía by gaiarooms</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 23/06 | Check-out: 27/06</div><div>Calle la Rosa, centro · Plaza Mayor</div><div class="price-highlight">R$ 1.574 <span class="currency-value">(≈ $5.170 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / opções para casal</div><span class="tag tag-sem-cafe" data-key="sem_cafe">SEM CAFÉ DA MANHÃ</span> <span class="tag">+R$53 café opcional</span><a href="https://www.booking.com/hotel/es/gran-via-by-gaiarooms.es-mx.html?checkin=2026-06-23&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                    <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">ÓTIMO CUSTO-BENEFÍCIO</span><h3>Ibis Salamanca</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 23/06 | Check-out: 27/06</div><div>La Marina · ótimo custo-benefício</div><div class="price-highlight">R$ 1.940 <span class="currency-value">(≈ $6.370 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual e/ou casal</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/ibis-salamanca.pt-br.html?checkin=2026-06-23&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                    <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">EXCELENTE CAFÉ DA MANHÃ</span><h3>Itaca Salamanca by Soho Boutique</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 23/06 | Check-out: 27/06</div><div>Del Grillo · excelente avaliação</div><div class="price-highlight">R$ 2.308 <span class="currency-value">(≈ $7.580 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual e/ou casal</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/estrella-albatros.pt-br.html?checkin=2026-06-23&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                </div>
+            </div>
+            <div style="background:#fef7e0; border-radius: 24px; padding: 1rem; border-left: 6px solid #e67e22;">
+                <div class="section-subtitle" style="margin-top:0;"><i class="fas fa-calendar-plus"></i> <span data-key="option_b_checkin">SEGUNDA OPÇÃO (direto de Porto) – Check-in: 21/06 | Check-out: 27/06 → 6 noites</span> <span class="option-badge" style="background:#e67e22;">6 noites</span></div>
+                <div class="hotel-grid">
+                    <div class="hotel-card"><span class="tag tag-economica" data-key="tag_economica">OPÇÃO ECONÔMICA</span><h3>Hotel Gran Vía by gaiarooms</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 21/06 | Check-out: 27/06</div><div class="price-highlight">R$ 2.009 <span class="currency-value">(≈ $6.600 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / opções para casal</div><span class="tag tag-sem-cafe" data-key="sem_cafe">SEM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/gran-via-by-gaiarooms.es-mx.html?checkin=2026-06-21&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                    <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">ÓTIMO CUSTO-BENEFÍCIO</span><h3>Ibis Salamanca</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 21/06 | Check-out: 27/06</div><div class="price-highlight">R$ 2.847 <span class="currency-value">(≈ $9.350 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual e/ou casal</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/ibis-salamanca.pt-br.html?checkin=2026-06-21&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                    <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">EXCELENTE CAFÉ DA MANHÃ</span><h3>Itaca Salamanca by Soho Boutique</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 21/06 | Check-out: 27/06</div><div class="price-highlight">R$ 3.212 <span class="currency-value">(≈ $10.550 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual e/ou casal</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/estrella-albatros.pt-br.html?checkin=2026-06-21&checkout=2026-06-27" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                </div>
+            </div>
+            <div class="note-box"><i class="fas fa-walking"></i> <span data-key="salamanca_walk">Salamanca é pequena, todos os hotéis ficam perto da Plaza Mayor. Não é necessário transporte, tudo se faz caminhando.</span></div>
+        </div>
+    </div>
+
+    <!-- BLOCO 5: MADRID -->
+    <div class="card card-madrid">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-train"></i> <span data-key="madrid_title">SALAMANCA → MADRID (27/06) · HOSPEDAGEM EM MADRID (2 noites: 27–29/jun)</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <div class="transport-grid"><div class="hotel-card"><h3><i class="fas fa-subway"></i> RENFE (OMIO)</h3><div class="info-row"><i class="far fa-calendar-alt"></i> 27/06 (sábado) · Saída 09h00 → Chegada 11h25</div><div class="price-highlight">R$ 95,00 <span class="currency-value">(≈ $312 MXN)</span></div><a href="https://www.omio.com.br/app/search-frontend/journey/bus/-1175493454/LC9F860530AEE431EBDAFF6BAA5D624C2/-8607699015089759500?locale=pt-BR" target="_blank" class="btn-link">COMPRAR NA OMIO</a></div></div>
+            <div class="section-subtitle"><i class="fas fa-hotel"></i> <span data-key="madrid_hotels">Hotéis em Madrid (27/jun a 29/jun)</span></div>
+            <div class="hotel-grid">
+                <div class="hotel-card"><h3>Ibis Styles Madrid Centro Maravillas</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 27/06 | Check-out: 29/06</div><div class="price-highlight">R$ 2.295 <span class="currency-value">(≈ $7.535 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual e/ou casal</div><span class="tag tag-sem-cafe" data-key="sem_cafe">SEM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/ibis-madrid-centro-maravillas.pt-br.html?checkin=2026-06-27&checkout=2026-06-29" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                <div class="hotel-card"><span class="tag tag-economica" data-key="tag_economica">OPÇÃO ECONÔMICA</span><h3>Generator Madrid</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 27/06 | Check-out: 29/06</div><div class="price-highlight">R$ 2.025 <span class="currency-value">(≈ $6.650 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / outras opções</div><span class="tag tag-sem-cafe" data-key="sem_cafe">SEM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/generator-madrid.pt-br.html?checkin=2026-06-27&checkout=2026-06-29" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+                <div class="hotel-card"><span class="tag tag-melhor-custo" data-key="tag_melhor_custo">ÓTIMO CUSTO-BENEFÍCIO</span><h3>Casual del Teatro Madrid</h3><div class="checkin-date"><i class="fas fa-calendar-check"></i> Check-in: 27/06 | Check-out: 29/06</div><div class="price-highlight">R$ 2.142 <span class="currency-value">(≈ $7.030 MXN)</span></div><div class="info-row"><i class="fas fa-bed"></i> Quarto individual / outras opções</div><span class="tag tag-cafe-incluido" data-key="com_cafe">COM CAFÉ DA MANHÃ</span><a href="https://www.booking.com/hotel/es/casualmadriddelteatro.pt-br.html?checkin=2026-06-27&checkout=2026-06-29" target="_blank" class="btn-outline btn-link">COMPRAR NO BOOKING</a></div>
+            </div>
+            <div class="note-box"><i class="fas fa-plane-up"></i> <span data-key="madrid_return">Retorno para Salvador: voo dia 29/06 às 10:55 (MAD–SSA). Alta estação, preços mais elevados.</span></div>
+        </div>
+    </div>
+
+    <!-- BLOCO 6: RESUMO -->
+    <div class="card card-resumo">
+        <div class="card-header" onclick="toggleCard(this)">
+            <h2><i class="fas fa-chalkboard-user"></i> <span data-key="dates_title">DATAS DOS SIMPÓSIOS & RESUMO DO ROTEIRO</span></h2>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </div>
+        <div class="card-content">
+            <div class="timeline-resumo">
+                <div class="timeline-step"><i class="fas fa-plane-arrival"></i><br><strong>16-17/jun</strong><br><span data-key="step1">Embarque → Lisboa</span></div>
+                <div class="timeline-step"><i class="fas fa-bus"></i><br><strong>17/jun</strong><br><span data-key="step2">Translado → Porto</span></div>
+                <div class="timeline-step"><i class="fas fa-gavel"></i><br><strong>18-19/jun</strong><br><span data-key="step3">Congresso Porto</span></div>
+                <div class="timeline-step"><i class="fas fa-map-marked-alt"></i><br><strong>21-23/jun</strong><br><span data-key="step4">Intervalo (2 rotas)</span></div>
+                <div class="timeline-step"><i class="fas fa-landmark"></i><br><strong>24-26/jun</strong><br><span data-key="step5">Congresso Salamanca</span></div>
+                <div class="timeline-step"><i class="fas fa-train"></i><br><strong>27/jun</strong><br><span data-key="step6">Trem → Madrid</span></div>
+                <div class="timeline-step"><i class="fas fa-plane-departure"></i><br><strong>29/jun</strong><br><span data-key="step7">Voo → Salvador</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <i class="fas fa-file-contract"></i> <span data-key="footer">Os valores apresentados correspondem aos preços disponíveis no dia da pesquisa, sujeitos a alteração. Cotações em Pesos Mexicanos são aproximadas (1 BRL ≈ 3,28 MXN). Organização: Simpósios Internacionais DH · Guia oficial para participantes.</span>
+</footer>
+
+<script>
+    function toggleCard(headerElement) {
+        const content = headerElement.nextElementSibling;
+        const icon = headerElement.querySelector('.toggle-icon');
+        if (!content) return;
+        content.classList.toggle('open');
+        if (content.classList.contains('open')) {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        } else {
+            icon.classList.add('fa-chevron-down');
+            icon.classList.remove('fa-chevron-up');
+        }
+    }
+    window.onload = () => { document.querySelectorAll('.card .card-content').forEach((c, i) => { if(i===0) c.classList.add('open'); }); applyLanguage('pt'); };
+    
+    const translations = {
+        pt: { hero_title: "GUIA DE VIAGEM DO SIMPÓSIO", congress1_title: "III Simpósio Internacional em Direitos Humanos e Cidadania", congress1_info: "Universidade Portucalense, Porto · 18 e 19 de junho de 2026", congress2_title: "VIII Simpósio Internacional em Direitos Humanos Aplicados", congress2_info: "Universidad de Salamanca · 24, 25 e 26 de junho de 2026", guide_title: "Sobre este Guia de Viagem", guide_text1: "Este guia foi desenvolvido especialmente para os participantes do III Simpósio Internacional em Direitos Humanos e Cidadania (Porto) e do VIII Simpósio Internacional em Direitos Humanos Aplicados (Salamanca). Aqui você encontrará todas as informações necessárias para planejar sua viagem: opções de voos, sugestões de translados, hospedagens recomendadas e roteiro flexível para o intervalo entre os congressos.", guide_text2: "Dica: Utilize os botões de idioma no topo para alternar entre português e espanhol. Todos os blocos são expansíveis — clique nos títulos coloridos para abrir/fechar as informações.", flights_title: "CHEGADA POR LISBOA (17/06) & RETORNO POR MADRI (29/06)", flight_note_title: "Informação importante:", flight_note: "Os valores abaixo correspondem a voos saindo de Salvador (BA) — Brasil. Participantes que saírem do México ou de outros lugares do Brasil podem buscar conexões similares para chegar a Lisboa e partir de Madrid. Os translados e hospedagens na Europa são comuns para todos. O translado Lisboa → Porto só deve ser considerado por quem for chegar por Lisboa. Outras opções: chegar por Madrid no dia 17/06 e ir de ônibus para Porto, ou comprar voo direto para Porto com conexão em Lisboa ou Madrid.", sem_bagagem: "sem bagagem despachada", porto_title: "TRANSLADO LISBOA → PORTO (17/06) · HOSPEDAGEM NO PORTO (4 noites: 17-21/jun)", porto_hotels: "Opções de hospedagem – Porto (17/jun a 21/jun)", porto_tip_title: "Dica importante:", porto_tip: "Prefiram hotéis próximos a linhas de metrô. A Universidade Portucalense fica perto da estação IPO. Hotéis mais próximos da universidade ficam mais afastados do centro histórico.", interval_title: "INTERVALO ENTRE OS CONGRESSOS · 21 a 23 de junho", interval_intro: "Os participantes ficam livres para organizar um roteiro turístico próprio, podendo programar viagens para outras cidades ou irem direto para Salamanca. Uma opção é sair de Porto para Coimbra no dia 21/06 e de Coimbra para Salamanca no dia 23/06 (ônibus acessíveis). Abaixo as duas rotas completas.", interval_alert_title: "ATENÇÃO PARTICIPANTES:", interval_alert: "A escolha da rota no intervalo impacta diretamente a data de check-in em Salamanca. Quem optar pela PRIMEIRA OPÇÃO chegará no dia 23/06 → 4 noites. Quem optar pela SEGUNDA OPÇÃO chegará no dia 21/06 → 6 noites. Ao reservar o hotel em Salamanca, escolha a seção correspondente à sua opção!", option_a_title: "PRIMEIRA OPÇÃO: IDA COM PARADA EM COIMBRA", option_b_title: "SEGUNDA OPÇÃO: IDA DIRETO + BATE-VOLTA (OPCIONAL) VALLADOLID", porto_coimbra: "Porto → Coimbra · 21/06 (domingo)", stay_coimbra: "Estadia em Coimbra (2 noites: 21/06 a 23/06)", coimbra_salamanca: "Coimbra → Salamanca · 23/06 (terça)", porto_salamanca_direto: "Porto → Salamanca · 21/06 (domingo)", valladolid_title: "Bate-volta opcional a Valladolid · 22/06 (segunda)", free_day_salamanca: "Dia livre em Salamanca em 23/06 para roteiro cultural antes do congresso.", salamanca_main: "SALAMANCA · ESTADIA E CONGRESSO (4 noites: 23-27/jun ou 6 noites: 21-27/jun)", option_a_checkin: "PRIMEIRA OPÇÃO (com parada em Coimbra) – Check-in: 23/06 | Check-out: 27/06 → 4 noites", option_b_checkin: "SEGUNDA OPÇÃO (direto de Porto) – Check-in: 21/06 | Check-out: 27/06 → 6 noites", salamanca_walk: "Salamanca é pequena, todos os hotéis ficam perto da Plaza Mayor. Não é necessário transporte, tudo se faz caminhando.", madrid_title: "SALAMANCA → MADRID (27/06) · HOSPEDAGEM EM MADRID (2 noites: 27–29/jun)", madrid_hotels: "Hotéis em Madrid (27/jun a 29/jun)", madrid_return: "Retorno para Salvador: voo dia 29/06 às 10:55 (MAD–SSA). Alta estação, preços mais elevados.", dates_title: "DATAS DOS SIMPÓSIOS & RESUMO DO ROTEIRO", step1: "Embarque → Lisboa", step2: "Translado → Porto", step3: "Congresso Porto", step4: "Intervalo (2 rotas)", step5: "Congresso Salamanca", step6: "Trem → Madrid", step7: "Voo → Salvador", footer: "Os valores apresentados correspondem aos preços disponíveis no dia da pesquisa, sujeitos a alteração. Cotações em Pesos Mexicanos são aproximadas (1 BRL ≈ 3,28 MXN).", tag_economica: "OPÇÃO ECONÔMICA", roundtrip_tag: "IDA E VOLTA NO MESMO DIA", tag_melhor_custo: "ÓTIMO CUSTO-BENEFÍCIO", tag_prox_univ: "MAIS PRÓXIMO DA UNIVERSIDADE", com_cafe: "COM CAFÉ DA MANHÃ", sem_cafe: "SEM CAFÉ DA MANHÃ" },
+        es: { hero_title: "GUÍA DE VIAJE DEL SIMPOSIO", congress1_title: "III Simposio Internacional en Derechos Humanos y Ciudadanía", congress1_info: "Universidad Portucalense, Oporto · 18 y 19 de junio de 2026", congress2_title: "VIII Simposio Internacional en Derechos Humanos Aplicados", congress2_info: "Universidad de Salamanca · 24, 25 y 26 de junio de 2026", guide_title: "Acerca de esta Guía de Viaje", guide_text1: "Esta guía ha sido desarrollada especialmente para los participantes del III Simposio Internacional en Derechos Humanos y Ciudadanía (Oporto) y del VIII Simposio Internacional en Derechos Humanos Aplicados (Salamanca). Aquí encontrará toda la información necesaria para planificar su viaje: opciones de vuelos, sugerencias de traslados, alojamientos recomendados e itinerario flexible para el intervalo entre congresos.", guide_text2: "Consejo: Utilice los botones de idioma en la parte superior para alternar entre portugués y español. Todos los bloques son expandibles: haga clic en los títulos coloridos para abrir/cerrar la información.", flights_title: "LLEGADA POR LISBOA (17/06) Y REGRESO POR MADRID (29/06)", flight_note_title: "Información importante:", flight_note: "Los valores corresponden a vuelos desde Salvador (BA) — Brasil. Participantes desde México u otros lugares de Brasil pueden buscar conexiones similares para llegar a Lisboa y salir de Madrid. Los traslados y alojamientos en Europa son comunes para todos. El traslado Lisboa → Oporto solo debe ser considerado por quienes lleguen por Lisboa. Otras opciones: llegar a Madrid el 17/06 y tomar autobús a Oporto, o comprar vuelo directo a Oporto con conexión en Lisboa o Madrid.", sem_bagagem: "sin equipaje facturado", porto_title: "TRASLADO LISBOA → OPORTO (17/06) · ALOJAMIENTO EN OPORTO (4 noches: 17-21/jun)", porto_hotels: "Opciones de alojamiento – Oporto (17/jun a 21/jun)", porto_tip_title: "Consejo importante:", porto_tip: "Prefieran hoteles cerca del metro. La Universidad Portucalense está cerca de la estación IPO. Hoteles más cercanos a la universidad quedan más lejos del centro histórico.", interval_title: "INTERVALO ENTRE CONGRESOS · 21 a 23 de junio", interval_intro: "Los participantes son libres de organizar su propio itinerario turístico, pudiendo planificar viajes a otras ciudades o ir directamente a Salamanca. Una opción es salir de Oporto a Coímbra el 21/06 y de Coímbra a Salamanca el 23/06 (autobús accesible). A continuación las dos rutas completas.", interval_alert_title: "ATENCIÓN PARTICIPANTES:", interval_alert: "La elección de la ruta en el intervalo impacta directamente la fecha de check-in en Salamanca. Quienes elijan la PRIMERA OPCIÓN llegarán el 23/06 → 4 noches. Quienes elijan la SEGUNDA OPCIÓN llegarán el 21/06 → 6 noches. ¡Al reservar el hotel en Salamanca, elija la sección correspondiente a su opción!", option_a_title: "PRIMERA OPCIÓN: IDA CON PARADA EN COÍMBRA", option_b_title: "SEGUNDA OPCIÓN: IDA DIRECTA + EXCURSIÓN OPCIONAL VALLADOLID", porto_coimbra: "Oporto → Coímbra · 21/06 (domingo)", stay_coimbra: "Estancia en Coímbra (2 noches: 21/06 a 23/06)", coimbra_salamanca: "Coímbra → Salamanca · 23/06 (martes)", porto_salamanca_direto: "Oporto → Salamanca · 21/06 (domingo)", valladolid_title: "Excursión opcional a Valladolid · 22/06 (lunes)", free_day_salamanca: "Día libre en Salamanca el 23/06 para recorrido cultural antes del congreso.", salamanca_main: "SALAMANCA · ALOJAMIENTO Y CONGRESO (4 noches: 23-27/jun o 6 noches: 21-27/jun)", option_a_checkin: "PRIMERA OPCIÓN (con parada en Coímbra) – Check-in: 23/06 | Check-out: 27/06 → 4 noches", option_b_checkin: "SEGUNDA OPCIÓN (directo desde Oporto) – Check-in: 21/06 | Check-out: 27/06 → 6 noches", salamanca_walk: "Salamanca es pequeña, todos los hoteles están cerca de la Plaza Mayor. No se necesita transporte, se puede hacer todo caminando.", madrid_title: "SALAMANCA → MADRID (27/06) · ALOJAMIENTO EN MADRID (2 noches: 27–29/jun)", madrid_hotels: "Hoteles en Madrid (27/jun a 29/jun)", madrid_return: "Regreso a Salvador: vuelo 29/06 10:55 (MAD–SSA). Temporada alta, precios elevados.", dates_title: "FECHAS DE LOS SIMPOSIOS & RESUMEN DEL ITINERARIO", step1: "Embarque → Lisboa", step2: "Traslado → Oporto", step3: "Congreso Oporto", step4: "Intervalo (2 rutas)", step5: "Congreso Salamanca", step6: "Tren → Madrid", step7: "Vuelo → Salvador", footer: "Los valores corresponden a precios disponibles el día de la consulta, sujetos a cambios. Tasas en Pesos Mexicanos son aproximadas (1 BRL ≈ 3,28 MXN).", tag_economica: "OPCIÓN ECONÓMICA", roundtrip_tag: "IDA Y VUELTA EL MISMO DÍA", tag_melhor_custo: "EXCELENTE RELACIÓN CALIDAD-PRECIO", tag_prox_univ: "MÁS CERCANO A LA UNIVERSIDAD", com_cafe: "CON DESAYUNO", sem_cafe: "SIN DESAYUNO" }
+    };
+    function applyLanguage(lang) { document.querySelectorAll('[data-key]').forEach(el => { const key = el.getAttribute('data-key'); if(translations[lang] && translations[lang][key]) el.innerText = translations[lang][key]; }); document.getElementById('btn-pt').classList.toggle('active', lang==='pt'); document.getElementById('btn-es').classList.toggle('active', lang==='es'); }
+    document.getElementById('btn-pt').addEventListener('click', () => applyLanguage('pt'));
+    document.getElementById('btn-es').addEventListener('click', () => applyLanguage('es'));
+</script>
+</body>
+</html>
